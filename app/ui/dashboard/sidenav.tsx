@@ -1,8 +1,8 @@
-import Link from "next/link";
-import NavLinks from "@/app/ui/dashboard/nav-links";
-import AcmeLogo from "@/app/ui/acme-logo";
-import { PowerIcon } from "@heroicons/react/24/outline";
-import { signOut } from "@/auth";
+import Link from 'next/link';
+import NavLinks from '@/app/ui/dashboard/nav-links';
+import AcmeLogo from '@/app/ui/acme-logo';
+import { PowerIcon } from '@heroicons/react/24/outline';
+import { signOut } from '@/auth';
 
 export default function SideNav() {
   const version = process.env.NEXT_PUBLIC_VERSION;
@@ -10,18 +10,18 @@ export default function SideNav() {
 
   let envColor;
   switch (environment) {
-    case "local":
-    case "development":
-      envColor = "bg-green-500";
+    case 'local':
+    case 'development':
+      envColor = 'bg-green-500';
       break;
-    case "staging":
-      envColor = "bg-yellow-500";
+    case 'staging':
+      envColor = 'bg-yellow-500';
       break;
-    case "production":
-      envColor = "bg-red-500";
+    case 'production':
+      envColor = 'bg-red-500';
       break;
     default:
-      envColor = "bg-gray-500";
+      envColor = 'bg-gray-500';
   }
 
   return (
@@ -47,7 +47,7 @@ export default function SideNav() {
         </div>
         <form
           action={async () => {
-            "use server";
+            'use server';
             await signOut();
           }}
         >
