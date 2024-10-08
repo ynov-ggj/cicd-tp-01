@@ -45,6 +45,14 @@ export type State = {
   message?: string | null;
 };
 
+export type StateCustomerCreation = {
+  errors?: {
+    name?: string[];
+    email?: string[];
+  };
+  message?: string | null;
+};
+
 export async function createInvoice(prevState: State, formData: FormData) {
   // Validate form fields using Zod
   const validatedFields = CreateInvoice.safeParse({
@@ -150,7 +158,7 @@ export async function authenticate(
   }
 }
 
-export async function createCustomer(prevState: State, formData: FormData) {
+export async function createCustomer(prevState: StateCustomerCreation, formData: FormData) {
   // Validate form fields using Zod
   const validatedFields = CreateCustomer.safeParse({
     name: formData.get('name'),
@@ -172,7 +180,7 @@ export async function createCustomer(prevState: State, formData: FormData) {
   // Insert data into the database
   try {
     await sql`
-      INSERT INTO customers (name, email)
+      INSERT INTO customers (name, email, image_url)
       VALUES (${name}, ${email}, ${image})
     `;
   } catch (error) {
