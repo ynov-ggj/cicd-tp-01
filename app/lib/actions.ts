@@ -194,3 +194,15 @@ export async function createCustomer(prevState: StateCustomerCreation, formData:
   revalidatePath('/dashboard/customers');
   redirect('/dashboard/customers');
 }
+
+export async function deleteCustomer(id: string) {
+  // throw new Error('Failed to Delete Invoice');
+
+  try {
+    await sql`DELETE FROM customers WHERE id = ${id}`;
+    revalidatePath('/dashboard/customers');
+    return { message: 'Deleted Customer' };
+  } catch (error) {
+    return { message: 'Database Error: Failed to Delete Customer.' };
+  }
+}
