@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
+import { UpdateCustomer } from '../ui/customers/buttons';
 
 const FormSchema = z.object({
   id: z.string(),
@@ -33,7 +34,7 @@ const FormSchemaCustomer = z.object({
 })
 
 const CreateInvoice = FormSchema.omit({ id: true, date: true });
-const CreateCustomer = FormSchemaCustomer.omit({id: true, image_url: true})
+const CreateCustomer = FormSchemaCustomer.omit({id: true, image_url: true});
 const UpdateInvoice = FormSchema.omit({ date: true, id: true });
 
 export type State = {
@@ -205,4 +206,37 @@ export async function deleteCustomer(id: string) {
   } catch (error) {
     return { message: 'Database Error: Failed to Delete Customer.' };
   }
+}
+
+export async function updateCustomer(
+  id: string,
+  prevState: StateCustomerCreation,
+  formData: FormData,
+) {
+  const validatedFields = CreateCustomer.safeParse({
+    name: formData.get('name'),
+    email: formData.get('email'),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Update Invoice.',
+    };
+  }
+
+  const { name, email } = validatedFields.data;
+
+  try {
+    await sql`
+      UPDATE customers
+      SET name = ${name}, email = ${email}
+      WHERE id = ${id}
+    `;
+  } catch (error) {
+    return { message: 'Database Error: Failed to Update Customer.' };
+  }
+
+  revalidatePath('/dashboard/customers');
+  redirect('/dashboard/customers');
 }
