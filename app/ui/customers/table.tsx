@@ -113,13 +113,12 @@ export default async function CustomersTable({
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
                         {customer.total_paid}
                       </td>
-                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        <DeleteCustomer id={customer.id} />
-                      </td>
-                      <td className="flex whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        <UpdateCustomer id={customer.id} />
-                      </td>
-                      
+                      <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
+                        <div className="flex justify-end gap-3">
+                          <UpdateCustomer id={customer.id} />
+                          <DeleteCustomer id={customer.id} />
+                        </div>
+                      </td>                      
                     </tr>
                   ))}
                 </tbody>
