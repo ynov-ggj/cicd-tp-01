@@ -16,6 +16,12 @@ export type Customer = {
   image_url: string;
 };
 
+export type CustomerForm = {
+  id: string;
+  name: string;
+  email: string;
+};
+
 export type Invoice = {
   id: string;
   customer_id: string;

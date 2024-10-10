@@ -4,10 +4,11 @@ import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { StateCustomerCreation, updateCustomer } from '@/app/lib/actions';
 import { useActionState } from 'react';
+import { CustomerForm } from '@/app/lib/definitions';
 
-export default function EditCustomerForm({id}){
+export default function EditCustomerForm({customer} : {customer: CustomerForm}) {
   const initialState: StateCustomerCreation = { message: null, errors: {} };
-  const updateCustomerWithID = updateCustomer.bind(null, id);
+  const updateCustomerWithID = updateCustomer.bind(null, customer.id);
   const [state, formAction] = useActionState(updateCustomerWithID, initialState);
 
   return (
@@ -24,6 +25,7 @@ export default function EditCustomerForm({id}){
                 id="name"
                 name="name"
                 type="string"
+                defaultValue={customer.name}
                 placeholder="Enter customer's name"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="amount-error"
@@ -43,6 +45,7 @@ export default function EditCustomerForm({id}){
                 id="email"
                 name="email"
                 type="string"
+                defaultValue={customer.email}
                 placeholder="Enter customer's email"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="amount-error"
@@ -66,7 +69,7 @@ export default function EditCustomerForm({id}){
         >
           Cancel
         </Link>
-        <Button type="submit">Create Customer</Button>
+        <Button type="submit">Edit Customer</Button>
       </div>
     </form>
   );
